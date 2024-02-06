@@ -22,7 +22,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
  */
 
 app.get('/', (req, res) => {
-  res.json({ message: 'Bonjour le monde' });
+  res.json({ message: 'Bonjour lucette' });
 });
 
 
