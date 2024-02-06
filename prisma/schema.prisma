@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Passager {
+  id_passager            Int      @id @default(autoincrement())
+  nom_passager           String
+  prenom_passager        String
+  numero_de_telephone    String
+  mot_de_passe           String
+  photo_passager         String
+  reservations           Reservation[]
+}
+
+model Reservation {
+  id_reservation         Int      @id @default(autoincrement())
+  id_trajet              Int
+  id_passager            Int
+  passager               Passager @relation(fields: [id_passager], references: [id_passager])
+  trajet                 Trajet   @relation(fields: [id_trajet], references: [id_trajet])
+  status                 String
+}
+
+model Conducteur {
+  id_conducteur          Int      @id @default(autoincrement())
+  nom_conducteur         String
+  prenom_conducteur      String
+  numero_de_telephone    String
+  modele_du_vehicule     String
+  nombre_de_place_disponible Int
+  photo_conducteur       String
+  photo_du_permis_de_conduire String
+  photo_de_la_carte_crise   String
+  photo_de_la_carte_d_assurance     String
+  trajets               Trajet[]
+}
+
+model Trajet {
+  id_trajet              Int       @id @default(autoincrement())
+  id_conducteur          Int     
+  destination_d_arrivee  String
+  destination_depart     String
+  heure_de_depart        DateTime
+  heure_d_arrivee        DateTime
+  prix_du_trajet         Float
+  conducteur             Conducteur @relation(fields: [id_conducteur], references: [id_conducteur])
+  reservations           Reservation[]
+}
